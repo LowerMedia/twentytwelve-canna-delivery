@@ -17,4 +17,168 @@ For older themes, and themes that do not use wp_enqueue_style() to enqueue their
 */
 
 /* =Theme customization starts here
--------------------------------------------------------------- 
+-------------------------------------------------------------- */
+
+
+
+/* =Repeatable patterns
+-------------------------------------------------------------- */
+
+/* Small headers */
+
+
+/* Shared Post Format styling */
+
+
+/* Form fields, general styles first */
+
+
+/* Buttons */
+
+
+/* Make sure videos and embeds fit their containers */
+
+/* Images */
+
+
+/* Navigation */
+
+
+/* Author profiles */
+
+
+/* =Basic structure
+-------------------------------------------------------------- */
+
+/* Body, links, basics */
+
+body {background:url("/wp-content/themes/twentytwelve-canna-delivery/img/seattle-cannabis-medical-marijuana-delivery-king-county-tacoma.png") repeat scroll 0 0 transparent;}
+
+body .site {box-shadow:0 0 0;background:none;}
+
+h1 {font: Arvo; color: #3b750;}
+h2{font: Comfortaa 400; color: #20231d;}
+p {font: Comfortaa; color: #20231d}
+
+.dark-green {
+	background: #3b7504;
+}
+
+.light-green {
+	background: #84c14a;
+}
+
+.orange {
+	background: #ce7611;
+}
+
+.black {
+	background: #20231d;
+}
+
+.grey {
+	background: #b6c1ab;
+}
+
+/* Page structure */
+
+
+/* Header */
+
+
+/* Banner */
+
+/* Sidebar */
+
+
+/* Footer */
+
+
+
+/* =Main content and comment content
+-------------------------------------------------------------- */
+
+
+
+/* =Archives
+-------------------------------------------------------------- */
+
+
+/* =Single audio/video attachment view
+-------------------------------------------------------------- */
+
+
+
+
+/* =Single image attachment view
+-------------------------------------------------------------- */
+
+
+
+
+/* =Aside post format
+-------------------------------------------------------------- */
+
+
+
+
+/* =Post formats
+-------------------------------------------------------------- */
+
+/* Image posts */
+
+
+/* Link posts */
+
+
+/* Quote posts */
+
+
+
+/* =Comments
+-------------------------------------------------------------- */
+
+
+
+/* =Front page template
+-------------------------------------------------------------- */
+
+
+/* =Widgets
+-------------------------------------------------------------- */
+
+
+
+/* =Plugins
+----------------------------------------------- */
+
+
+
+/* =Media queries
+-------------------------------------------------------------- */
+
+/* Does the same thing as <meta name="viewport" content="width=device-width">,
+ * but in the future W3C standard way. -ms- prefix is required for IE10+ to
+ * render responsive styling in Windows 8 "snapped" views; IE10+ does not honor
+ * the meta tag. See http://core.trac.wordpress.org/ticket/25888.
+ */
+@-ms-viewport {}
+@viewport {}
+
+/* Minimum width of 600 pixels. */
+@media screen and (min-width: 600px) {
+	
+}
+
+/* Minimum width of 960 pixels. */
+@media screen and (min-width: 960px) {
+	
+}
+
+
+/* =Print
+----------------------------------------------- */
+
+@media print {
+	
+}
