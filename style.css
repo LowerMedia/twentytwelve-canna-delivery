@@ -56,28 +56,38 @@ body {background:url("/wp-content/themes/twentytwelve-canna-delivery/img/seattle
 
 body .site {box-shadow:0 0 0;background:none;}
 
-h1 {font: Arvo; color: #3b750;}
+.site-header h1 a, h1 {font: Arvo; color: #3b7504;}
+
 h2{font: Comfortaa 400; color: #20231d;}
+
 p {font: Comfortaa; color: #20231d}
 
-.dark-green {
-	background: #3b7504;
-}
+a, 
+.comments-link a, 
+.entry-meta a, 
+footer[role="contentinfo"] a 
+{color:#ce7611;}
 
-.light-green {
-	background: #84c14a;
-}
+a:hover, 
+.comments-link a:hover, 
+.entry-meta a:hover, 
+footer[role="contentinfo"] a:hover 
+{color:#3b7504;}
 
-.orange {
-	background: #ce7611;
-}
+.dark-green {background: #3b7504;}
+.light-green {background: #84c14a;}
+.orange {background: #ce7611;}
+.black {background: #20231d;}
+.grey {background: #b6c1ab;}
 
-.black {
-	background: #20231d;
-}
-
-.grey {
-	background: #b6c1ab;
+.btn {
+    background: linear-gradient(to bottom, #3b7504 0%, #84c14a 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #fff;
+    float: left;
+    font-size: 12px;
+    margin: 0 10px 10px 0;
+    padding: 20px;
+    text-decoration: none;
 }
 
 /* Page structure */
