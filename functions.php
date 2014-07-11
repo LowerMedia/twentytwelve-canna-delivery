@@ -108,13 +108,25 @@ add_filter( 'the_search_query', 'searchAll' );
 
 //
 function phonenumber_shortcode( $atts ){
+    $lm_array = get_option('lowermedia_phone_number');
+
+    function format_phonenumber( $arg ) {
+        $data = '+'.$arg;
+        if(  preg_match( '/^\+\d(\d{3})(\d{3})(\d{4})$/', $data,  $matches ) )
+        {
+            $result = $matches[1] . '-' .$matches[2] . '-' . $matches[3];
+            return $result;
+        }
+
+    }
+
     if (wp_is_mobile())
     {
-        $lm_array = get_option('lowermedia_phone_number');
-        return '<a href="tel:+'.$lm_array["id_number"].'">'.$lm_array["id_number"].'</a>';
+        return '<a href="tel:+'.$lm_array["id_number"].'">'.format_phonenumber($lm_array["id_number"]).'</a>';
+        //return '<a href="tel:+'.$lm_array["id_number"].'">'.$lm_array["id_number"].'</a>'.'<a href="tel:+'.$lm_array["id_number"].'">'.format_phonenumber($lm_array["id_number"]).'</a>';
     } else {
-        $lm_array = get_option('lowermedia_phone_number');
-        return $lm_array["id_number"];
+        return format_phonenumber($lm_array["id_number"]);
+        //return $lm_array["id_number"].format_phonenumber($lm_array["id_number"]);
     }
 }
 add_shortcode( 'phonenumber', 'phonenumber_shortcode' );
