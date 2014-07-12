@@ -139,10 +139,12 @@ img {
     .site-logo {
         display:inline-block;
         vertical-align: top;
+        width: 48%;
     }
 
     .header-hgroup h1, 
     .header-hgroup h2, 
+    .header-hgroup h3, 
     .header-hgroup .btn {
         text-align:right;
         float:right;
@@ -151,7 +153,8 @@ img {
     }
 
     .header-hgroup h1, 
-    .header-hgroup h2 {
+    .header-hgroup h2,
+    .header-hgroup h3 {
         width:100%;
     }
 
