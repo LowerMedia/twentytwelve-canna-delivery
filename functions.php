@@ -45,6 +45,109 @@ function strains_custom_init() {
 }
 add_action( 'init', 'strains_custom_init' );
 
+/*
+#
+#   LEAFLY INTEGRATION
+#
+*/
+
+function leafly_shortcode () {
+
+    $output;
+
+    query_posts('post_type=strains');
+    if ( have_posts() ){
+      while ( have_posts() ){
+        the_post(); 
+        $canna_leafly_strain_array[] = the_title('','',false);
+      }
+    }
+
+    //$output .= var_dump($canna_leafly_strain_array);
+    //$output .= "<br />\n";
+
+    // Get cURL resource
+    $curl = curl_init();
+    // Set some options - we are passing in a useragent too here
+    curl_setopt_array($curl, array(
+       CURLOPT_RETURNTRANSFER => 1,
+       CURLOPT_URL => 'http://www.leafly.com/api/strains?action=query&Id',
+       CURLOPT_USERAGENT => 'Canna Delivery cURL Request'
+    ));
+    // Send the request & save response to $resp
+    $content = curl_exec($curl);
+    // Close request to clear up some resources
+    $leafly_strain_array = json_decode($content, true);
+
+    //foreach different strain (leafly_strain_array)
+    foreach ($leafly_strain_array as $leafly_strain_info) {
+        //for each item (a title) in the $canna_leafly_strain_array process as $canna_strain_name
+        foreach ($canna_leafly_strain_array as $canna_strain_name) {
+
+            if ($leafly_strain_info["Name"] == $canna_strain_name) {
+                $count=0;
+                //if the leafly strain name is equal to the canna strain name we have a match
+                $output .= "WE HAVE A MATCH"."<br />\n";
+                $output .= $canna_strain_name."<br />\n";
+                $output .= $nameofleaflystrain."<br />\n";
+                //echo $leafly_strain_info["Name"][0]."<br />\n";
+
+                foreach ($leafly_strain_info as $leafly_strain_value) {
+                    //use switch statment to decide what the leafly value's name is by way of the counter
+                    switch ($count) {
+                      case 0:
+                        $leafly_value_name='ID';
+                        break;
+                      case 1:
+                        $leafly_value_name='Slug';
+                        break;
+                      case 2:
+                        $leafly_value_name='Name';
+                        break;
+                      case 3:
+                        $leafly_value_name='Category';
+                        break;
+                      case 4:
+                        $leafly_value_name='Element Nickname';
+                        break;
+                      case 5:
+                        $leafly_value_name='Description';
+                        break;
+                      case 6:
+                        $leafly_value_name='URL';
+                        break;
+                      case 7:
+                        $leafly_value_name='API URL';
+                        break;
+                      case 8:
+                        $leafly_value_name='Leave Review URL';
+                        break;
+                      case 9:
+                        $leafly_value_name='Rating';
+                        break;
+                      default:
+                        $leafly_value_name='Value';
+                    }
+                    
+                    if($leafly_strain_value == "n/a"){} else {$matching_strain_array_info[] = "$leafly_value_name: $leafly_strain_value<br />\n";   }
+                    if ($count==12) {$matching_strain_array_info[] = "<br />\n<br />\n";}
+                    $count++;
+                }   
+            }
+        }
+        // if ($wehaveamatch) {$FULL_canna_strain_value_array .= $TEMP_canna_strain_value_array[]}
+    }
+
+    $output .= "<br/><br/>\n\n\n";
+    foreach ($matching_strain_array_info as $key => $strain_quality) {
+        $output .= "$strain_quality";
+    }
+    curl_close($curl);
+    return $output;
+
+}
+add_shortcode( 'leafly_matches', 'leafly_shortcode' );
+
 
 
 /*
@@ -106,30 +209,31 @@ function searchAll( $query ) {
 // The hook needed to search ALL content
 add_filter( 'the_search_query', 'searchAll' );
 
-//
-function phonenumber_shortcode( $atts ){
-    $lm_array = get_option('lowermedia_phone_number');
-
-    function format_phonenumber( $arg ) {
-        $data = '+'.$arg;
-        if(  preg_match( '/^\+\d(\d{3})(\d{3})(\d{4})$/', $data,  $matches ) )
-        {
-            $result = $matches[1] . '-' .$matches[2] . '-' . $matches[3];
-            return $result;
-        }
-
+function format_phonenumber( $arg ) {
+    $data = '+'.$arg;
+    if(  preg_match( '/^\+\d(\d{3})(\d{3})(\d{4})$/', $data,  $matches ) )
+    {
+        $result = $matches[1] . '-' .$matches[2] . '-' . $matches[3];
+        return $result;
     }
 
+}
+
+// Add [phonenumber] shortcode
+function phonenumber_shortcode( $atts ){
+    //retrieve phone number from database
+    $lm_array = get_option('lowermedia_phone_number');
+
+    //check if user is on mobile if so make the number a link
     if (wp_is_mobile())
     {
         return '<a href="tel:+'.$lm_array["id_number"].'">'.format_phonenumber($lm_array["id_number"]).'</a>';
-        //return '<a href="tel:+'.$lm_array["id_number"].'">'.$lm_array["id_number"].'</a>'.'<a href="tel:+'.$lm_array["id_number"].'">'.format_phonenumber($lm_array["id_number"]).'</a>';
     } else {
         return format_phonenumber($lm_array["id_number"]);
-        //return $lm_array["id_number"].format_phonenumber($lm_array["id_number"]);
     }
 }
 add_shortcode( 'phonenumber', 'phonenumber_shortcode' );
+
 
 class lowermedia_phonenumber_settings
 {
