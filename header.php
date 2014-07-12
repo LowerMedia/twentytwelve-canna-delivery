@@ -33,22 +33,34 @@
 
 <body <?php body_class(); ?>>
 
-<header id="masthead" class="site-header site" role="banner">
+<header id="masthead" class="site-header" role="banner">
 
 	<nav id="site-navigation" class="main-navigation" role="navigation">
 		<h3 class="menu-toggle"><?php _e( 'Menu', 'twentytwelve' ); ?></h3>
 		<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentytwelve' ); ?>"><?php _e( 'Skip to content', 'twentytwelve' ); ?></a>
 		<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
 	</nav><!-- #site-navigation -->
+	
+	<section class='header-meta-container'>
 
-	<hgroup>
-		<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-		<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
-	</hgroup>
+		<picture class="site-logo">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+			   <source media="(min-width: 1000px)" src="<?php echo get_stylesheet_directory_uri(); ?>/img/georgetown-cannabis-weed-pot-medicinal-medicine-delivery-service-west-seattle-king-county.png">
+			   <source media="(min-width: 500px)" src="<?php echo get_stylesheet_directory_uri(); ?>/img/georgetown-cannabis-weed-pot-medicinal-medicine-delivery-service-west-seattle-king-county.png">
+			   <source src="<?php echo get_stylesheet_directory_uri(); ?>/img/seattle-cannabis-weed-pot-medicinal-medicine-delivery-service-west-seattle-king-county.png">
+			   <img alt="This picture loads on non-supporting browsers." src="<?php echo get_stylesheet_directory_uri(); ?>/img/seattle-cannabis-weed-pot-medicinal-medicine-delivery-service-west-seattle-king-county.png">
+			</a>
+		</picture>
+		
+		<hgroup class='header-hgroup'>
+			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+			<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
+			<div class='dark-green btn'><?php echo do_shortcode( '[phonenumber]' )?>
+		</div>
+		</hgroup>
 
-	<?php if ( get_header_image() ) : ?>
-	<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php header_image(); ?>" class="header-image" width="<?php echo get_custom_header()->width; ?>" height="<?php echo get_custom_header()->height; ?>" alt="" /></a>
-	<?php endif; ?>
+	</section>
+
 </header><!-- #masthead -->
 
 <div id="page" class="hfeed site">
