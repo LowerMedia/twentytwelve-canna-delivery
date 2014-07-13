@@ -51,18 +51,35 @@ add_action( 'init', 'strains_custom_init' );
 #
 */
 
-function leafly_shortcode () {
+function return_leafly_matches ($strain_to_match) {
+
 
     $output;
 
-    query_posts('post_type=strains');
-    if ( have_posts() ){
-      while ( have_posts() ){
-        the_post(); 
-        $canna_leafly_strain_array[] = the_title('','',false);
-      }
+    if($strain_to_match){
+        $output .="YOU HAVE ENTERED".$strain_to_match."A STRAIN TO COMPARE AGAINST";
+        query_posts('post_type=strains&slug=blue-rhino');
+        if ( have_posts() ){
+            while ( have_posts() ){
+                the_post(); 
+                //echo "OUTPUT TITLE:".get_the_title()."<br />";
+                //if (get_the_title()=='Agent Orange'){echo "%%%%%";}
+                //$post_title == the_title();
+                if (get_the_title() == $strain_to_match) {
+                    $canna_leafly_strain_array[] = the_title('','',false);
+                }
+            }
+        }
+    } else {
+        query_posts('post_type=strains&slug=blue-rhino');
+        if ( have_posts() ){
+            while ( have_posts() ){
+                the_post(); 
+                $canna_leafly_strain_array[] = the_title('','',false);
+            }
+        }
     }
-
+    
     //$output .= var_dump($canna_leafly_strain_array);
     //$output .= "<br />\n";
 
@@ -81,12 +98,21 @@ function leafly_shortcode () {
 
     //foreach different strain (leafly_strain_array)
     foreach ($leafly_strain_array as $leafly_strain_info) {
+        
         //for each item (a title) in the $canna_leafly_strain_array process as $canna_strain_name
         foreach ($canna_leafly_strain_array as $canna_strain_name) {
 
             if ($leafly_strain_info["Name"] == $canna_strain_name) {
+
+                if($strain_to_match){
+                    if($leafly_strain_info["Name"] ==$strain_to_match){
+                            $output .= "these are the droids we are looking for";
+                    }
+                } 
+
                 $count=0;
                 //if the leafly strain name is equal to the canna strain name we have a match
+                $output .= "<br />\n";
                 $output .= "WE HAVE A MATCH"."<br />\n";
                 $output .= $canna_strain_name."<br />\n";
                 $output .= $nameofleaflystrain."<br />\n";
@@ -137,7 +163,7 @@ function leafly_shortcode () {
         }
         // if ($wehaveamatch) {$FULL_canna_strain_value_array .= $TEMP_canna_strain_value_array[]}
     }
-
+    
     $output .= "<br/><br/>\n\n\n";
     foreach ($matching_strain_array_info as $key => $strain_quality) {
         $output .= "$strain_quality";
@@ -146,7 +172,7 @@ function leafly_shortcode () {
     return $output;
 
 }
-add_shortcode( 'leafly_matches', 'leafly_shortcode' );
+add_shortcode( 'leafly_matches', 'return_leafly_matches' );
 
 
 
