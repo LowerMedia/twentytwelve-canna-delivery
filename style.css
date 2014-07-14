@@ -194,8 +194,9 @@ img {
     margin: 35px;
 }
 
-.archive .entry-title {width:100%;background:#ce7611;text-align:center;padding:5px 0;}
-.archive .entry-title a {color:white;width:100%;}
+.archive .entry-title, .single .entry-title {width:100%;background:#ce7611;text-align:center;padding:5px 0;}
+.archive .entry-title a, .single h1 {color:white;width:100%;}
+
 .archive .strains .comments-link {display:none;}
 .archive .strains .entry-header {margin-bottom:0px;}
 .archive .strains .entry-meta {
