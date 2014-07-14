@@ -187,12 +187,28 @@ img {
 /* =Archives
 -------------------------------------------------------------- */
 
-.archive .strains {
-    display:inline-block;
-    width:42%;
-    max-width: 400px;
-    margin: 3%;
-}
+
+
+    .archive .strains {
+        display:inline-block;
+        width:94%;
+        max-width: 400px;
+        margin: 3%;
+    }
+
+    @media (min-width: 550px) { 
+        .archive .strains {
+            width:45%;
+            margin: 2%;
+        }
+    }
+
+    @media (min-width: 970px) { 
+        .archive .strains {
+            width:50%;
+            margin: 4%;
+        }
+    }
 
 .archive .entry-title, .single .entry-title {width:100%;background:#ce7611;text-align:center;padding:5px 0;}
 .archive .entry-title a, .single h1 {color:white;width:100%;}
