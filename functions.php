@@ -45,36 +45,20 @@ function strains_custom_init() {
 }
 add_action( 'init', 'strains_custom_init' );
 
-/*
-#
-#   LEAFLY INTEGRATION
-#
-*/
-
-if ( ! function_exists( 'get_content_by_slug' ) ) :
 /**
- * Get content using a slug
+ * LEAFLY INTEGRATION
  *
  * @param   string
  * @return  string
- */    
-function get_content_by_slug($page_slug) {
-    $page = get_page_by_path($page_slug);
-    if ($page) {
-        $page_content = $page->post_content;
-        $page_content = apply_filters('the_content', $page_content);            
-        return $page_content;
-    } else {
-        return null;
-    }
-}
-endif;
+ */
+
+// if ( ! function_exists( 'pluggable_function' ) ) :
+// endif;
+    
 
 function return_leafly_matches ($strain_to_match) {
 
     $output;
-
-
 
     if($strain_to_match){
         $DEBUG .="YOU HAVE ENTERED ".$strain_to_match." A STRAIN TO COMPARE AGAINST <br /.>";
@@ -230,7 +214,8 @@ function return_leafly_matches ($strain_to_match) {
     }
     curl_close($curl);
     
-    $output .= "<br/><br/>\n\n\n".$DEBUG."<br/><br/>\n\n\n";
+    //comment/uncomment to deactivate/activate debug comments
+    //$output .= "<br/><br/>\n\n\n".$DEBUG."<br/><br/>\n\n\n";
     
     return $output;
 
