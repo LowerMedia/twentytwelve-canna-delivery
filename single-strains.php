@@ -14,16 +14,7 @@ get_header(); ?>
 
 			<?php while ( have_posts() ) : the_post(); ?>
 				
-				<?php get_template_part( 'content', get_post_format() ); 
-
-				//if (is_main_query()){echo "WE ARE IN THE MAIN QUERY!!!";}
-				?>
-
-				<section id='leafly-info' class='leafly-info'>
-				<?php echo 
-					return_leafly_matches(get_the_title()); 	
-				?>
-				</seciont>
+				<?php get_template_part( 'content', get_post_format() ); ?>
 
 				<nav class="nav-single">
 					<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentytwelve' ); ?></h3>

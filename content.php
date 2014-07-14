@@ -20,6 +20,11 @@
 			
 			<?php if ( is_single() ) : ?>
 			<h1 class="entry-title"><?php the_title(); ?></h1>
+			<section id='leafly-info' class='leafly-info'>
+				<?php echo 
+					return_leafly_matches(get_the_title()); 	
+				?>
+		 	</seciont>
 			<?php endif; // is_single() ?>
 
 			<?php if ( ! post_password_required() && ! is_attachment() ) : ?>
