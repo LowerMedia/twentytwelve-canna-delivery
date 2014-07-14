@@ -42,6 +42,7 @@
 	</nav><!-- #site-navigation -->
 	
 	<section class='header-meta-container'>
+	<?php if ( !wp_is_mobile() ) : ?>
 
 		<picture class="site-logo">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
@@ -51,6 +52,7 @@
 			   <img alt="This picture loads on non-supporting browsers." src="<?php echo get_stylesheet_directory_uri(); ?>/img/seattle-cannabis-weed-pot-medicinal-medicine-delivery-service-west-seattle-king-county.png">
 			</a>
 		</picture>
+	<?php endif ?>
 		
 		<hgroup class='header-hgroup'>
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
