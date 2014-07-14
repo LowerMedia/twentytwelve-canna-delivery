@@ -17,11 +17,27 @@
 		</div>
 		<?php endif; ?>
 		<header class="entry-header">
+			
+			<?php if ( is_single() ) : ?>
+			<h1 class="entry-title"><?php the_title(); ?></h1>
+			<?php endif; // is_single() ?>
+
 			<?php if ( ! post_password_required() && ! is_attachment() ) : ?>
-				<?php $featured_img = wp_get_attachment_image_src ( get_post_thumbnail_id ( $post->ID ), 'single-post-thumbnail' );  ?>
-                <?php if ($featured_img) { ?>
+				
+                <?php if (wp_get_attachment_image_src ( get_post_thumbnail_id ( $post->ID ), 'single-post-thumbnail' )) { ?>
+                	<?php $featured_img = wp_get_attachment_image_src ( get_post_thumbnail_id ( $post->ID ), 'single-post-thumbnail' );  ?>
                     <div class="lightbox-img featured-img-wrap">
-                    	<a href="<?php echo $featured_img[0]; ?>" rel="lightbox"><img src="<?php echo $featured_img[0]; ?>" /></a></div>
+                    	<a href="<?php echo $featured_img[0]; ?>" rel="lightbox">
+                    		<img src="<?php echo $featured_img[0]; ?>" />
+                    	</a>
+                    </div>
+                <?php } ?>
+                <?php if (!wp_get_attachment_image_src ( get_post_thumbnail_id ( $post->ID ), 'single-post-thumbnail' )) { ?>
+                    <div class="lightbox-img featured-img-wrap">
+                    	<a href="http://canna-delivery.petelower.com/wp-content/uploads/2014/07/weed-leaf.png" rel="lightbox">
+                    		<img src="http://canna-delivery.petelower.com/wp-content/uploads/2014/07/weed-leaf.png" />
+                    	</a>
+                    </div>
                 <?php } ?>
             <?php endif; ?>
 			<?php 
@@ -30,13 +46,12 @@
 			//endif; 
 			?>
 
-			<?php if ( is_single() ) : ?>
-			<h1 class="entry-title"><?php the_title(); ?></h1>
-			<?php else : ?>
+			<?php if ( !is_single() ) : ?>
 			<h1 class="entry-title">
 				<a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
 			</h1>
 			<?php endif; // is_single() ?>
+
 			<?php if ( comments_open() ) : ?>
 				<div class="comments-link">
 					<?php //comments_popup_link( '<span class="leave-reply">' . __( 'Leave a reply', 'twentytwelve' ) . '</span>', __( '1 Reply', 'twentytwelve' ), __( '% Replies', 'twentytwelve' ) ); ?>
@@ -49,10 +64,12 @@
 			<?php the_excerpt(); ?>
 		</div><!-- .entry-summary -->
 		<?php else : ?>
-		<div class="entry-content">
-			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentytwelve' ) ); ?>
-			<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'twentytwelve' ), 'after' => '</div>' ) ); ?>
-		</div><!-- .entry-content -->
+			<?php if ( is_single() ) : ?>
+				<div class="entry-content">
+					<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentytwelve' ) ); ?>
+					<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'twentytwelve' ), 'after' => '</div>' ) ); ?>
+				</div><!-- .entry-content -->
+			<?php endif; // is_single() ?>
 		<?php endif; ?>
 
 		<footer class="entry-meta">

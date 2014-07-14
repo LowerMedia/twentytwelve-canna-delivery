@@ -51,37 +51,67 @@ add_action( 'init', 'strains_custom_init' );
 #
 */
 
-function return_leafly_matches ($strain_to_match) {
+if ( ! function_exists( 'get_content_by_slug' ) ) :
+/**
+ * Get content using a slug
+ *
+ * @param   string
+ * @return  string
+ */    
+function get_content_by_slug($page_slug) {
+    $page = get_page_by_path($page_slug);
+    if ($page) {
+        $page_content = $page->post_content;
+        $page_content = apply_filters('the_content', $page_content);            
+        return $page_content;
+    } else {
+        return null;
+    }
+}
+endif;
 
+function return_leafly_matches ($strain_to_match) {
 
     $output;
 
+
+
     if($strain_to_match){
-        $output .="YOU HAVE ENTERED".$strain_to_match."A STRAIN TO COMPARE AGAINST";
-        query_posts('post_type=strains&slug=blue-rhino');
+        $DEBUG .="YOU HAVE ENTERED ".$strain_to_match." A STRAIN TO COMPARE AGAINST <br /.>";
+        //if (is_main_query()){echo "WE ARE IN THE MAIN QUERY!!!";} else {echo "WE ARE NOT IN THE MAIN QUERY!!!";}
+        query_posts('post_type=strains&slug='.$strain_to_match);
+        echo "<br/><br/>";
         if ( have_posts() ){
             while ( have_posts() ){
                 the_post(); 
-                //echo "OUTPUT TITLE:".get_the_title()."<br />";
+                $DEBUG .= "OUTPUT TITLE:".get_the_title()."<br />";
                 //if (get_the_title()=='Agent Orange'){echo "%%%%%";}
                 //$post_title == the_title();
+                $DEBUG .="TEST BLOCK: A - 1 ".$strain_to_match." TITLE:".get_the_title()."<br /.>";
                 if (get_the_title() == $strain_to_match) {
+                    $DEBUG .="TEST BLOCK: A - 2 ".the_title('','',false)."<br /.>";
                     $canna_leafly_strain_array[] = the_title('','',false);
                 }
             }
         }
     } else {
-        query_posts('post_type=strains&slug=blue-rhino');
+        //if (is_main_query()){echo "WE ARE IN THE MAIN QUERY!!!";} else {echo "WE ARE NOT IN THE MAIN QUERY!!!";}
+        $DEBUG .="YOU HAVE NOT ENTERED ".$strain_to_match." A STRAIN TO COMPARE AGAINST <br /.>";
+        query_posts('post_type=strains&slug=.'.$strain_to_match);
         if ( have_posts() ){
             while ( have_posts() ){
+                $DEBUG .="TEST BLOCK: A - 3 ".the_title('','',false)."<br /.>";
                 the_post(); 
                 $canna_leafly_strain_array[] = the_title('','',false);
             }
         }
     }
     
-    //$output .= var_dump($canna_leafly_strain_array);
-    //$output .= "<br />\n";
+    // Reset Query
+    wp_reset_query();
+
+    //$DEBUG .= var_dump($canna_leafly_strain_array);
+    //$DEBUG .= "<br />\n";
 
     // Get cURL resource
     $curl = curl_init();
@@ -96,6 +126,8 @@ function return_leafly_matches ($strain_to_match) {
     // Close request to clear up some resources
     $leafly_strain_array = json_decode($content, true);
 
+
+
     //foreach different strain (leafly_strain_array)
     foreach ($leafly_strain_array as $leafly_strain_info) {
         
@@ -106,56 +138,84 @@ function return_leafly_matches ($strain_to_match) {
 
                 if($strain_to_match){
                     if($leafly_strain_info["Name"] ==$strain_to_match){
-                            $output .= "these are the droids we are looking for";
+                            $DEBUG .= "The strain you are searching for: ".$strain_to_match." was matched to ".$leafly_strain_info["Name"];
                     }
                 } 
 
                 $count=0;
                 //if the leafly strain name is equal to the canna strain name we have a match
-                $output .= "<br />\n";
-                $output .= "WE HAVE A MATCH"."<br />\n";
-                $output .= $canna_strain_name."<br />\n";
-                $output .= $nameofleaflystrain."<br />\n";
-                //echo $leafly_strain_info["Name"][0]."<br />\n";
-
+                $DEBUG .= "<br />\n";// DEBUG INFO NEED TO DELETE OR HIDE -----------------------------
+                $DEBUG .= "WE HAVE THE SAME STRAIN"."<br />\n";// DEBUG INFO NEED TO DELETE OR HIDE -----------------------------
+                $DEBUG .= $canna_strain_name."<br />\n";// DEBUG INFO NEED TO DELETE OR HIDE -----------------------------
+                $DEBUG .= $leafly_strain_info["Name"]."<br />\n";// DEBUG INFO NEED TO DELETE OR HIDE -----------------------------
+                
+                $html_container_open = '';
+                $html_container_close = '';
                 foreach ($leafly_strain_info as $leafly_strain_value) {
                     //use switch statment to decide what the leafly value's name is by way of the counter
                     switch ($count) {
                       case 0:
                         $leafly_value_name='ID';
+                        $html_container_open = "<div id='leafly-strain-id' class='leafly-strain-id'>";
+                        $html_container_close = '</div>';
                         break;
                       case 1:
                         $leafly_value_name='Slug';
+                        $html_container_open = "<div id='leafly-strain-slug' class='leafly-strain-slug'>";
+                        $html_container_close = '</div>';
                         break;
                       case 2:
                         $leafly_value_name='Name';
+                        $html_container_open = "<div id='leafly-strain-name' class='leafly-strain-name'>";
+                        $html_container_close = '</div>';
                         break;
                       case 3:
                         $leafly_value_name='Category';
+                        $html_container_open = "<div id='leafly-strain-category' class='leafly-strain-category'>";
+                        $html_container_close = '</div>';
                         break;
                       case 4:
                         $leafly_value_name='Element Nickname';
+                        $html_container_open = "<div id='leafly-strain-nickname' class='leafly-strain-nickname'>";
+                        $html_container_close = '</div>';
                         break;
                       case 5:
                         $leafly_value_name='Description';
+                        $html_container_open = "<div id='leafly-strain-description' class='leafly-strain-description'>";
+                        $html_container_close = '</div>';
                         break;
                       case 6:
                         $leafly_value_name='URL';
+                        $html_container_open = "<div id='leafly-strain-url' class='leafly-strain-url'>";
+                        $html_container_close = '</div>';
                         break;
                       case 7:
                         $leafly_value_name='API URL';
+                        $html_container_open = "<div id='leafly-strain-apiurl' class='leafly-strain-apiurl'>";
+                        $html_container_close = '</div>';
                         break;
                       case 8:
                         $leafly_value_name='Leave Review URL';
+                        $html_container_open = "<div id='leafly-strain-reviewurl' class='leafly-strain-reviewurl'>";
+                        $html_container_close = '</div>';
                         break;
                       case 9:
                         $leafly_value_name='Rating';
+                        $html_container_open = "<div id='leafly-strain-rating' class='leafly-strain-rating'>";
+                        $html_container_close = '</div>';
                         break;
                       default:
                         $leafly_value_name='Value';
+                        $html_container_open = "<div id='leafly-strain-value' class='leafly-strain-value'>";
+                        $html_container_close = '</div>';
                     }
                     
-                    if($leafly_strain_value == "n/a"){} else {$matching_strain_array_info[] = "$leafly_value_name: $leafly_strain_value<br />\n";   }
+                    if ($leafly_strain_value == "n/a") {
+
+                    } else {
+                        $matching_strain_array_info[] =$html_container_open."<span id='leafly-strain-vname' class='leafly-strain-vname'>$leafly_value_name:</span><span id='leafly-strain-value' class='leafly-strain-value'> $leafly_strain_value</span><br />\n".$html_container_close;   
+                    }
+
                     if ($count==12) {$matching_strain_array_info[] = "<br />\n<br />\n";}
                     $count++;
                 }   
@@ -164,11 +224,14 @@ function return_leafly_matches ($strain_to_match) {
         // if ($wehaveamatch) {$FULL_canna_strain_value_array .= $TEMP_canna_strain_value_array[]}
     }
     
-    $output .= "<br/><br/>\n\n\n";
+    
     foreach ($matching_strain_array_info as $key => $strain_quality) {
         $output .= "$strain_quality";
     }
     curl_close($curl);
+    
+    $output .= "<br/><br/>\n\n\n".$DEBUG."<br/><br/>\n\n\n";
+    
     return $output;
 
 }
