@@ -64,7 +64,6 @@ function return_leafly_matches ($strain_to_match) {
         $DEBUG .="YOU HAVE ENTERED ".$strain_to_match." A STRAIN TO COMPARE AGAINST <br /.>";
         //if (is_main_query()){echo "WE ARE IN THE MAIN QUERY!!!";} else {echo "WE ARE NOT IN THE MAIN QUERY!!!";}
         query_posts('post_type=strains&slug='.$strain_to_match);
-        echo "<br/><br/>";
         if ( have_posts() ){
             while ( have_posts() ){
                 the_post(); 
