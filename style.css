@@ -297,6 +297,10 @@ img {
     font-size:16px;
 }
 
+.leafly-strain-rating {
+    background: white;
+    text-align: center;
+}
 
 /* =Single image attachment view
 -------------------------------------------------------------- */
